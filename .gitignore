@@ -152,8 +152,9 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# mac stuff
+# other stuff
 .DS_Store
+.python-version
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
