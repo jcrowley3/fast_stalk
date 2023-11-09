@@ -3,11 +3,11 @@ from colorlog import ColoredFormatter
 
 GSDCON_LEVEL = 35
 GSDPROD_LEVEL = 25
-SURVEY_LEVEL = 45
+MILESTONE_LEVEL = 45
 
 logging.addLevelName(GSDCON_LEVEL, "GSDCON")
 logging.addLevelName(GSDPROD_LEVEL, "GSDPROD")
-logging.addLevelName(SURVEY_LEVEL, "SURVEY")
+logging.addLevelName(MILESTONE_LEVEL, "MILESTONE")
 
 def gsdcon(self, message, *args, **kws):
     self._log(GSDCON_LEVEL, message, args, **kws)
@@ -15,12 +15,12 @@ def gsdcon(self, message, *args, **kws):
 def gsdprod(self, message, *args, **kws):
     self._log(GSDPROD_LEVEL, message, args, **kws)
 
-def survey(self, message, *args, **kws):
-    self._log(SURVEY_LEVEL, message, args, **kws)
+def milestone(self, message, *args, **kws):
+    self._log(MILESTONE_LEVEL, message, args, **kws)
 
 logging.Logger.gsd_consumer = gsdcon
 logging.Logger.gsd_producer = gsdprod
-logging.Logger.survey = survey
+logging.Logger.milestone = milestone
 
 def init_logger():
     # Configure logging
@@ -34,7 +34,7 @@ def init_logger():
     ch.setLevel(logging.INFO)
 
     formatter = ColoredFormatter(
-        "%(log_color)s[%(levelname)s]%(reset)s %(message)s",
+        "%(log_color)s[%(levelname)s-%(process)d]%(reset)s %(message)s",
         datefmt=None,
         reset=True,
         log_colors={
@@ -42,7 +42,7 @@ def init_logger():
             'INFO': 'magenta',
             'GSDPROD': 'green',
             'GSDCON': 'red',
-            'SURVEY': 'blue',
+            'MILESTONE': 'blue',
             'WARNING':  'yellow',
             'ERROR':    'red',
             'CRITICAL': 'red',
