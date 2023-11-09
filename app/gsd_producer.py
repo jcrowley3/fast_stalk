@@ -40,12 +40,12 @@ def survey_job():
     }
 
 def produce_jobs():
-    logger.gsd_producer("Starting job creation...")
+    logger.gsd_producer("Adding jobs...")
     jobs = [
         reward_job(),
         survey_job()
     ]
-    for i in range(5):
+    for i in range(20):
         for job in jobs:
             producer_beanstalk.put(json.dumps(job))
             # logger.gsd_producer(f"{job['eventType']} job added to 'survey_tube' (Batch: {i+1}/5)")
@@ -88,14 +88,15 @@ if __name__ == '__main__':
         job_total = producer_beanstalk.stats_tube('survey_tube')['current-jobs-ready']
 
         if job_total != last_job_count:
-            if job_total <= 8:
+            if job_total <= 20:
+                logger.gsd_producer(f"only {job_total} jobs left!!!")
                 produce_jobs()
             else:
-                logger.gsd_producer(f"Jobs already exist in 'survey_tube' ({job_total} jobs)")
+                logger.gsd_producer(f"{job_total} jobs in tube")
 
             last_job_count = job_total
 
-        time.sleep(1)
+        time.sleep(5)
 
 
     # add_job_interactively()
